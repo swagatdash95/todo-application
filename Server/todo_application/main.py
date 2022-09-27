@@ -12,8 +12,9 @@ graphql_app = GraphQLRouter(graphql.schema)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://10.18.61.35:8080/",
-                   "http://192.168.0.56:8080", "http://10.18.61.43:8080", "http://0.0.0.0:8080"],
+    allow_origins=["*"],
+    # allow_origins=["http://10.18.61.35:8080/","http://10.18.61.39:8080/",
+    #                "http://192.168.0.56:8080", "http://10.18.61.43:8080", "http://0.0.0.0:8080"],
     # allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
