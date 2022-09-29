@@ -13,9 +13,11 @@ import type { TodoQuery as TodoQueryType } from "./__generated__/TodoQuery.graph
 const queryAllTodos = graphql`
   query TodoQuery {
     todos {
-      isDone
-      name
-      todoId
+      items {
+        isDone
+        name
+        todoId
+      }
     }
   }
 `;

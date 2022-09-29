@@ -14,6 +14,7 @@ import type { TodoPageAddSelectedMutation } from "./__generated__/TodoPageAddSel
 import type { TodoPageDeleteSelectedMutation } from "./__generated__/TodoPageDeleteSelectedMutation.graphql";
 
 import TodoList from "./TodoList";
+import Environment from "../Environment";
 
 // const RootQuery = graphql`
 // query RootQuery {
@@ -26,21 +27,39 @@ import TodoList from "./TodoList";
 const queryAll = graphql`
   query TodoPageQuery {
     todos {
-      isDone
-      name
-      todoId
-      description
+      ...TodoList_todos
     }
   }
 `;
 
+// const addItem = graphql`
+//   mutation TodoPageMutation($name: String!, $description: String) {
+//     addTodo(name: $name, isDone: false, description: $description) {
+//       description
+//       isDone
+//       name
+//       todoId
+//     }
+//   }
+// `;
+
+// const addItem = graphql`
+//   mutation TodoPageMutation($name: String!, $description: String) {
+//     addTodo(name: $name, isDone: false, description: $description) {
+//       items {
+//         description
+//         isDone
+//         name
+//         todoId
+//       }
+//     }
+//   }
+// `;
+
 const addItem = graphql`
   mutation TodoPageMutation($name: String!, $description: String) {
     addTodo(name: $name, isDone: false, description: $description) {
-      description
-      isDone
-      name
-      todoId
+      ...TodoList_todos
     }
   }
 `;
@@ -51,6 +70,7 @@ const addSelectedItem = graphql`
       description
       isDone
       name
+      todoId
     }
   }
 `;
@@ -66,15 +86,14 @@ const deleteSelectedItems = graphql`
   }
 `;
 
-type Props = {
-  todoQueryRef: PreloadedQuery<TodoQueryType>;
-};
-
 const TodoPage = () => {
   const [todoQuery, loadTodoQuery] = useQueryLoader<TodoQueryType>(queryAll);
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [selectedItems, setSelectedItems] = useState([] as any);
+
+  const [refetchVal, setRefetchVal] = useState(false);
+
   const [commitAddMutation, isAddMutationInFlight] =
     useMutation<TodoPageMutation>(addItem);
   const [commitSelectedAddMutation, isSelectedAddMutationInFlight] =
@@ -91,6 +110,22 @@ const TodoPage = () => {
       variables: {
         name: newItemName,
         description: newItemDesc ? newItemDesc : "",
+      },
+      onCompleted: (response, error) => {
+        if (error) {
+          console.log("Error:", error);
+        } else {
+          console.log("Response:", response);
+          console.log(Environment);
+          // refreshTodoQuery();
+          setRefetchVal(true);
+        }
+      },
+      updater: (store) => {
+        console.log("Updater:", store);
+        console.log("Root:", store.getRootField);
+        console.log("getRoot():", store.getRoot());
+        store.invalidateStore();
       },
     });
     setNewItemDesc("");
@@ -129,15 +164,42 @@ const TodoPage = () => {
       setSelectedItems([]);
     }
   };
+  const renderComponent = ({ error, props, retry }: any) => {
+    if (error) {
+      return <div>{error.message}</div>;
+    } else if (props) {
+      const refreshTodoQuery = retry;
+      // console.log("Before:", allTodos);
+      // setAllTodos(props.todos);
+      // console.log("After:", allTodos, typeof allTodos);
+      // Object.keys(allTodos).length > 0 ? console.log("Yes") : console.log("No");
+      return (
+        <div>
+          {
+            <TodoList
+              // todoQueryRef={todoQuery}
+              // todoQuery={queryAll}
+              todos={props.todos}
+              updateSelectedItems={updateSelectedItems}
+              selectedItems={selectedItems}
+              // refreshTodoQuery={retry}
+            />
+          }
+        </div>
+      );
+    }
+  };
 
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
-      <TodoList
-        todoQueryRef={todoQuery}
-        todoQuery={queryAll}
-        updateSelectedItems={updateSelectedItems}
-        selectedItems={selectedItems}
+      <QueryRenderer
+        environment={Environment}
+        query={queryAll}
+        variables={{}}
+        // variables={{ refetch: refetchVal }}
+        render={renderComponent}
       />
+
       <button
         onClick={callAddItemsMutation}
         style={{

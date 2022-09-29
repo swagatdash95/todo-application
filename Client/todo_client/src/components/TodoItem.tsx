@@ -1,13 +1,7 @@
 import { h } from "preact";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import {
-  QueryRenderer,
-  graphql,
-  PreloadedQuery,
-  useQueryLoader,
-  useMutation,
-} from "react-relay";
+import { createFragmentContainer, graphql, useMutation } from "react-relay";
 import type { TodoItemDeleteMutation } from "./__generated__/TodoItemDeleteMutation.graphql";
 import type { TodoItemToggleMutation } from "./__generated__/TodoItemToggleMutation.graphql";
 
@@ -96,4 +90,13 @@ const TodoItem = (props: any) => {
   );
 };
 
-export default TodoItem;
+// export default TodoItem;
+export default createFragmentContainer(TodoItem, {
+  item: graphql`
+    fragment TodoItem_item on Todo {
+      todoId
+      name
+      isDone
+    }
+  `,
+});

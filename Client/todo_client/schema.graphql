@@ -1,11 +1,19 @@
-"""Exposes a URL that specifies the behaviour of this scalar."""
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
 directive @specifiedBy(
-  """The URL that specifies the behaviour of this scalar."""
+  """
+  The URL that specifies the behaviour of this scalar.
+  """
   url: String!
 ) on SCALAR
 
 type Mutation {
-  addTodo(name: String!, description: String = "", isDone: Boolean = false): Todo
+  addTodo(
+    name: String!
+    description: String = ""
+    isDone: Boolean = false
+  ): Todos
   checkTodo(todoId: UUID!): Todo
   checkSelectedTodos(todoIds: [UUID!]!): [Todo!]
   deleteTodo(todoId: UUID!): Todo
@@ -15,7 +23,7 @@ type Mutation {
 type Query {
   version: String!
   todo(todoId: UUID!): Todo
-  todos: [Todo!]!
+  todos: Todos!
 }
 
 type Todo {
@@ -25,5 +33,8 @@ type Todo {
   isDone: Boolean!
 }
 
-scalar UUID
+type Todos {
+  items: [Todo!]!
+}
 
+scalar UUID

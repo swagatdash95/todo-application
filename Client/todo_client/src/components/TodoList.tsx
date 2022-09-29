@@ -13,7 +13,7 @@ type Props = {
 };
 
 const TodoList = (props: any) => {
-  const data: any = usePreloadedQuery(props.todoQuery, props.todoQueryRef);
+  // const data: any = usePreloadedQuery(props.todoQuery, props.todoQueryRef);
 
   return (
     <table style={{ border: "2px solid black", width: "100%" }}>
@@ -24,7 +24,7 @@ const TodoList = (props: any) => {
         <th style={{ borderBottom: "2px solid grey" }}>Toggle Item</th>
         <th></th>
       </tr>
-      {data.todos.map((todo: any, index: number) => (
+      {props.todos.items.map((todo: any, index: number) => (
         <TodoItem
           key={index}
           id={index}
@@ -37,4 +37,13 @@ const TodoList = (props: any) => {
   );
 };
 
-export default TodoList;
+// export default TodoList;
+export default createFragmentContainer(TodoList, {
+  todos: graphql`
+    fragment TodoList_todos on Todos {
+      items {
+        ...TodoItem_item
+      }
+    }
+  `,
+});

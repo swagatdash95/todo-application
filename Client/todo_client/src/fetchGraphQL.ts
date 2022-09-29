@@ -1,7 +1,7 @@
 // your-app-name/src/fetchGraphQL.js
 async function fetchGraphQL(text: any, variables: any) {
   // Fetch data from GitHub's GraphQL API:
-  const response = await fetch("http://127.0.0.1:9999/graphql", {
+  const response = await fetch("http://127.0.0.1:9998/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

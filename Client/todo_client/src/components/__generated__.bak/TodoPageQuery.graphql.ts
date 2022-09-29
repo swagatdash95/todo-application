@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d98ce89e545955e5cdb322d5caa530c5>>
+ * @generated SignedSource<<486b9370f04d9697014f1997a461b38c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,7 @@ import { FragmentRefs } from "relay-runtime";
 export type TodoPageQuery$variables = {};
 export type TodoPageQuery$data = {
   readonly todos: {
-    readonly " $fragmentSpreads": FragmentRefs<"TodoList_todos">;
+    readonly " $fragmentSpreads": FragmentRefs<"TodoList_items">;
   };
 };
 export type TodoPageQuery = {
@@ -39,7 +39,7 @@ const node: ConcreteRequest = {
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "TodoList_todos"
+            "name": "TodoList_items"
           }
         ],
         "storageKey": null
@@ -90,6 +90,13 @@ const node: ConcreteRequest = {
                 "kind": "ScalarField",
                 "name": "isDone",
                 "storageKey": null
+              },
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "description",
+                "storageKey": null
               }
             ],
             "storageKey": null
@@ -100,15 +107,15 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "0762b21988c05f9f3e5efbfc9da358ff",
+    "cacheID": "10574d1752f24ecf194d40ae101ac374",
     "id": null,
     "metadata": {},
     "name": "TodoPageQuery",
     "operationKind": "query",
-    "text": "query TodoPageQuery {\n  todos {\n    ...TodoList_todos\n  }\n}\n\nfragment TodoItem_item on Todo {\n  todoId\n  name\n  isDone\n}\n\nfragment TodoList_todos on Todos {\n  items {\n    ...TodoItem_item\n  }\n}\n"
+    "text": "query TodoPageQuery {\n  todos {\n    ...TodoList_items\n  }\n}\n\nfragment TodoItem_item on Todo {\n  todoId\n  name\n  isDone\n  description\n}\n\nfragment TodoList_items on Todos {\n  items {\n    ...TodoItem_item\n  }\n}\n"
   }
 };
 
-(node as any).hash = "475d41aba52bb23173d346e6768e660b";
+(node as any).hash = "fdc4b77767c5a1660f17c55bb73c38d5";
 
 export default node;
