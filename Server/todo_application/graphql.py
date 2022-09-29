@@ -41,29 +41,38 @@ class Query:
         return Todo(todo_id=str(item.todo_id), name=item.name, description=item.description, is_done=item.is_done)
 
     @strawberry.field
-    def todos(self) -> typing.List[Todo]:
+    def todos(self) -> Todos:
         """Resolver to get all Todos"""
 
         items = schemas.Todos.fetch_all()
-        return [Todo(
+        
+        return Todos(items = [Todo(
             todo_id=value.todo_id,
             name=value.name,
             description=value.description,
             is_done=value.is_done
-        ) for key, value in items.items()]
+        ) for key, value in items.items()])
 
 
 @strawberry.type
 class Mutation:
     """Mutation class for the strawberry schema"""
     @strawberry.mutation
-    def add_todo(self, name: str, description: typing.Optional[str] = "", is_done: typing.Optional[bool] = False) -> typing.Union[Todo, None]:
+    def add_todo(self, name: str, description: typing.Optional[str] = "", is_done: typing.Optional[bool] = False) -> typing.Union[Todos, None]:
         """Add a new todo item"""
         item = schemas.Todos.add(schemas.Todo(todo_id=uuid.uuid4(), name=name,
                                               description=description, is_done=is_done))
 
-        return Todo(todo_id=item.todo_id, name=item.name,
-                    description=item.description, is_done=item.is_done)
+        # return Todo(todo_id=item.todo_id, name=item.name,
+        #             description=item.description, is_done=item.is_done)
+        items = schemas.Todos.fetch_all()
+
+        return Todos(items = [Todo(
+            todo_id=value.todo_id,
+            name=value.name,
+            description=value.description,
+            is_done=value.is_done
+        ) for key, value in items.items()])
 
     @strawberry.mutation
     def check_todo(self, todo_id: uuid.UUID) -> typing.Union[Todo, None]:
