@@ -1,33 +1,43 @@
 import { h } from "preact";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { createFragmentContainer, graphql, useMutation } from "react-relay";
+import {
+  createFragmentContainer,
+  graphql,
+  useFragment,
+  useMutation,
+} from "react-relay";
 import type { TodoItemDeleteMutation } from "./__generated__/TodoItemDeleteMutation.graphql";
 import type { TodoItemToggleMutation } from "./__generated__/TodoItemToggleMutation.graphql";
+import type { TodoItem_item$key } from "./__generated__/TodoItem_item.graphql";
 
 const deleteItemQuery = graphql`
-  mutation TodoItemDeleteMutation($todoId: UUID!) {
-    deleteTodo(todoId: $todoId) {
+  mutation TodoItemDeleteMutation($id: UUID!) {
+    deleteTodo(id: $id) {
       isDone
       name
-      todoId
+      id
       description
     }
   }
 `;
 
 const toggleItemQuery = graphql`
-  mutation TodoItemToggleMutation($todoId: UUID!) {
-    checkTodo(todoId: $todoId) {
+  mutation TodoItemToggleMutation($id: UUID!) {
+    checkTodo(id: $id) {
       isDone
       name
-      todoId
+      id
       description
     }
   }
 `;
 
-const TodoItem = (props: any) => {
+const TodoItem = (props: {
+  todo: TodoItem_item$key;
+  selectedItems: any;
+  updateSelectedItems: any;
+}) => {
   const [commitMutation, isMutationInFlight] =
     useMutation<TodoItemDeleteMutation>(deleteItemQuery);
 
@@ -37,46 +47,55 @@ const TodoItem = (props: any) => {
   const removeItem = () => {
     commitMutation({
       variables: {
-        todoId: props.item.todoId,
+        id: data.id,
       },
     });
-    alert("Item '" + props.item.name + "' deleted!");
+    alert("Item '" + data.name + "' deleted!");
   };
 
   const toggleItem = () => {
     commitToggleMutation({
       variables: {
-        todoId: props.item.todoId,
+        id: data.id,
       },
     });
-    alert("Item '" + props.item.name + "' status changed!");
+    alert("Item '" + data.name + "' status changed!");
   };
 
   const selectItem = () => {
-    props.updateSelectedItems(props.item.todoId);
+    console.log("Selected item");
+    props.updateSelectedItems(data.id);
   };
 
+  const data = useFragment(
+    graphql`
+      fragment TodoItem_item on Todo {
+        id
+        name
+        isDone
+        description
+      }
+    `,
+    props.todo
+  );
+  // console.log("data in todo item:", data);
   return (
     <tr className="item">
       <td style={{ textAlign: "center" }}>
         <input
           type="checkbox"
-          checked={
-            props.selectedItems.includes(props.item.todoId) ? true : false
-          }
-          id={"select-" + props.id}
+          checked={props.selectedItems.includes(data.id) ? true : false}
+          // id={"select-" + data.id}
           onChange={selectItem}
         ></input>
       </td>
-      <td style={{ textAlign: "center" }}>{props.item.name}</td>
-      <td style={{ textAlign: "center" }}>
-        {props.item.isDone ? "Yes" : "No"}
-      </td>
+      <td style={{ textAlign: "center" }}>{data.name}</td>
+      <td style={{ textAlign: "center" }}>{data.isDone ? "Yes" : "No"}</td>
       <td style={{ textAlign: "center" }}>
         <input
           type="checkbox"
-          checked={props.item.isDone}
-          id={"check" + props.id}
+          checked={data.isDone}
+          // id={"check" + data.id}
           onChange={toggleItem}
         ></input>
       </td>
@@ -90,13 +109,13 @@ const TodoItem = (props: any) => {
   );
 };
 
-// export default TodoItem;
-export default createFragmentContainer(TodoItem, {
-  item: graphql`
-    fragment TodoItem_item on Todo {
-      todoId
-      name
-      isDone
-    }
-  `,
-});
+export default TodoItem;
+// export default createFragmentContainer(TodoItem, {
+//   item: graphql`
+//     fragment TodoItem_item on Todo {
+//       id
+//       name
+//       isDone
+//     }
+//   `,
+// });

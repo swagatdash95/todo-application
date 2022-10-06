@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f9d5bb3eb550a17e85b2d808c9f4fbb3>>
+ * @generated SignedSource<<0c2fb5666bd2df824e02f0fb5e8b1954>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,14 +10,14 @@
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type TodoItemToggleMutation$variables = {
-  todoId: any;
+  id: any;
 };
 export type TodoItemToggleMutation$data = {
   readonly checkTodo: {
     readonly description: string;
+    readonly id: string;
     readonly isDone: boolean;
     readonly name: string;
-    readonly todoId: string;
   } | null;
 };
 export type TodoItemToggleMutation = {
@@ -30,7 +30,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "todoId"
+    "name": "id"
   }
 ],
 v1 = [
@@ -39,8 +39,8 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "todoId",
-        "variableName": "todoId"
+        "name": "id",
+        "variableName": "id"
       }
     ],
     "concreteType": "Todo",
@@ -66,7 +66,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "todoId",
+        "name": "id",
         "storageKey": null
       },
       {
@@ -98,16 +98,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "48003bb3d9c0ccb78c2ff462131c7a20",
+    "cacheID": "ad4b0836138cb0f275294fde50b16ac0",
     "id": null,
     "metadata": {},
     "name": "TodoItemToggleMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoItemToggleMutation(\n  $todoId: UUID!\n) {\n  checkTodo(todoId: $todoId) {\n    isDone\n    name\n    todoId\n    description\n  }\n}\n"
+    "text": "mutation TodoItemToggleMutation(\n  $id: UUID!\n) {\n  checkTodo(id: $id) {\n    isDone\n    name\n    id\n    description\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ff92e7cd31c3c5dc24545448e575741b";
+(node as any).hash = "298b0f2f7f9e8c21b00b0cd5140e66b8";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ded0a4e56aa4fe51c7c0660f1ef52d2e>>
+ * @generated SignedSource<<fc5aface018ef6d23b50ff7e7897b59b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,14 +9,24 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
-export type TodoPageMutation$variables = {
+export type AddTodoInput = {
   description?: string | null;
+  id: string;
   name: string;
+};
+export type TodoPageMutation$variables = {
+  input: AddTodoInput;
 };
 export type TodoPageMutation$data = {
   readonly addTodo: {
-    readonly " $fragmentSpreads": FragmentRefs<"TodoList_todos">;
+    readonly count: number;
+    readonly id: string;
+    readonly items: ReadonlyArray<{
+      readonly description: string;
+      readonly id: string;
+      readonly isDone: boolean;
+      readonly name: string;
+    }>;
   } | null;
 };
 export type TodoPageMutation = {
@@ -25,128 +35,108 @@ export type TodoPageMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "description"
-},
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "input"
+  }
+],
 v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "name"
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
 },
 v2 = [
   {
-    "kind": "Variable",
-    "name": "description",
-    "variableName": "description"
-  },
-  {
-    "kind": "Literal",
-    "name": "isDone",
-    "value": false
-  },
-  {
-    "kind": "Variable",
-    "name": "name",
-    "variableName": "name"
-  }
-];
-return {
-  "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/)
+    "alias": null,
+    "args": [
+      {
+        "kind": "Variable",
+        "name": "values",
+        "variableName": "input"
+      }
     ],
-    "kind": "Fragment",
-    "metadata": null,
-    "name": "TodoPageMutation",
+    "concreteType": "Todos",
+    "kind": "LinkedField",
+    "name": "addTodo",
+    "plural": false,
     "selections": [
       {
         "alias": null,
-        "args": (v2/*: any*/),
-        "concreteType": "Todos",
+        "args": null,
+        "kind": "ScalarField",
+        "name": "count",
+        "storageKey": null
+      },
+      (v1/*: any*/),
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Todo",
         "kind": "LinkedField",
-        "name": "addTodo",
-        "plural": false,
+        "name": "items",
+        "plural": true,
         "selections": [
           {
+            "alias": null,
             "args": null,
-            "kind": "FragmentSpread",
-            "name": "TodoList_todos"
-          }
+            "kind": "ScalarField",
+            "name": "description",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isDone",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          (v1/*: any*/)
         ],
         "storageKey": null
       }
     ],
+    "storageKey": null
+  }
+];
+return {
+  "fragment": {
+    "argumentDefinitions": (v0/*: any*/),
+    "kind": "Fragment",
+    "metadata": null,
+    "name": "TodoPageMutation",
+    "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v1/*: any*/),
-      (v0/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "TodoPageMutation",
-    "selections": [
-      {
-        "alias": null,
-        "args": (v2/*: any*/),
-        "concreteType": "Todos",
-        "kind": "LinkedField",
-        "name": "addTodo",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Todo",
-            "kind": "LinkedField",
-            "name": "items",
-            "plural": true,
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "todoId",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "name",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "isDone",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "c032016d0303aac1118f2af9110fb8af",
+    "cacheID": "d0cfe556d96cdd59c98d300a5d1e924c",
     "id": null,
     "metadata": {},
     "name": "TodoPageMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageMutation(\n  $name: String!\n  $description: String\n) {\n  addTodo(name: $name, isDone: false, description: $description) {\n    ...TodoList_todos\n  }\n}\n\nfragment TodoItem_item on Todo {\n  todoId\n  name\n  isDone\n}\n\nfragment TodoList_todos on Todos {\n  items {\n    ...TodoItem_item\n  }\n}\n"
+    "text": "mutation TodoPageMutation(\n  $input: AddTodoInput!\n) {\n  addTodo(values: $input) {\n    count\n    id\n    items {\n      description\n      isDone\n      name\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "838f5b596c9988640502ee4ec01fc2e2";
+(node as any).hash = "0ed83b1cc49a382153da87094585d843";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<33a58b94203547e5a0f8eb6046576349>>
+ * @generated SignedSource<<f735147e825e913f166a54add31e8485>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,11 +13,11 @@ export type TodoQuery$variables = {};
 export type TodoQuery$data = {
   readonly todos: {
     readonly items: ReadonlyArray<{
+      readonly id: string;
       readonly isDone: boolean;
       readonly name: string;
-      readonly todoId: string;
     }>;
-  };
+  } | null;
 };
 export type TodoQuery = {
   response: TodoQuery$data;
@@ -25,58 +25,59 @@ export type TodoQuery = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "alias": null,
-    "args": null,
-    "concreteType": "Todos",
-    "kind": "LinkedField",
-    "name": "todos",
-    "plural": false,
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Todo",
-        "kind": "LinkedField",
-        "name": "items",
-        "plural": true,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "isDone",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "name",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "todoId",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ],
-    "storageKey": null
-  }
-];
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Todo",
+  "kind": "LinkedField",
+  "name": "items",
+  "plural": true,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "isDone",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
+    },
+    (v0/*: any*/)
+  ],
+  "storageKey": null
+};
 return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "TodoQuery",
-    "selections": (v0/*: any*/),
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Todos",
+        "kind": "LinkedField",
+        "name": "todos",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ],
     "type": "Query",
     "abstractKey": null
   },
@@ -85,19 +86,33 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "TodoQuery",
-    "selections": (v0/*: any*/)
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Todos",
+        "kind": "LinkedField",
+        "name": "todos",
+        "plural": false,
+        "selections": [
+          (v1/*: any*/),
+          (v0/*: any*/)
+        ],
+        "storageKey": null
+      }
+    ]
   },
   "params": {
-    "cacheID": "4990b5ed5c107b4702fec6f84d90587f",
+    "cacheID": "b10033b125e95ace07a9f7eac6f5f38d",
     "id": null,
     "metadata": {},
     "name": "TodoQuery",
     "operationKind": "query",
-    "text": "query TodoQuery {\n  todos {\n    items {\n      isDone\n      name\n      todoId\n    }\n  }\n}\n"
+    "text": "query TodoQuery {\n  todos {\n    items {\n      isDone\n      name\n      id\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ae9a6f5294ac0afffdad346410d23f91";
+(node as any).hash = "03e64f183c02b71dc8aa6ecdd78a2b37";
 
 export default node;

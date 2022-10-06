@@ -1,0 +1,40 @@
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
+directive @specifiedBy(
+  """
+  The URL that specifies the behaviour of this scalar.
+  """
+  url: String!
+) on SCALAR
+
+type Mutation {
+  addTodo(
+    name: String!
+    description: String = ""
+    isDone: Boolean = false
+  ): Todos
+  checkTodo(todoId: UUID!): Todo
+  checkSelectedTodos(todoIds: [UUID!]!): [Todo!]
+  deleteTodo(todoId: UUID!): Todo
+  deleteSelectedTodos(todoIds: [UUID!]!): [Todo!]
+}
+
+type Query {
+  version: String!
+  todo(todoId: UUID!): Todo
+  todos: Todos!
+}
+
+type Todo {
+  todoId: ID!
+  name: String!
+  description: String!
+  isDone: Boolean!
+}
+
+type Todos {
+  items: [Todo!]!
+}
+
+scalar UUID
