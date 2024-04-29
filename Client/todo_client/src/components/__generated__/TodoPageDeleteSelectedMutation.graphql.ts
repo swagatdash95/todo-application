@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<088cc3d55f8d3c6db8881e0f3f9f0823>>
+ * @generated SignedSource<<5f9676009aa55657204a15c718a36565>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,9 +15,9 @@ export type TodoPageDeleteSelectedMutation$variables = {
 export type TodoPageDeleteSelectedMutation$data = {
   readonly deleteSelectedTodos: ReadonlyArray<{
     readonly description: string;
+    readonly id: string;
     readonly isDone: boolean;
     readonly name: string;
-    readonly todoId: string;
   }> | null;
 };
 export type TodoPageDeleteSelectedMutation = {
@@ -73,7 +73,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "todoId",
+        "name": "id",
         "storageKey": null
       }
     ],
@@ -98,16 +98,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "a1ad88db9d21afd54286ef8421903b1f",
+    "cacheID": "f7c5307b1b6755a1f40c3d18f985d700",
     "id": null,
     "metadata": {},
     "name": "TodoPageDeleteSelectedMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageDeleteSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  deleteSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    todoId\n  }\n}\n"
+    "text": "mutation TodoPageDeleteSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  deleteSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "fa2a94cc4b92ae358e468b96851abe16";
+(node as any).hash = "2ab963ce98a47716795e557db4e1fe27";
 
 export default node;

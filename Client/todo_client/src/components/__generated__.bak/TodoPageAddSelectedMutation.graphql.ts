@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<78797ab9e8a525231c41fcba433b0d16>>
+ * @generated SignedSource<<40b91fe79d16e302a88ae3b9352b4354>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,9 +15,9 @@ export type TodoPageAddSelectedMutation$variables = {
 export type TodoPageAddSelectedMutation$data = {
   readonly checkSelectedTodos: ReadonlyArray<{
     readonly description: string;
-    readonly id: string;
     readonly isDone: boolean;
     readonly name: string;
+    readonly todoId: string;
   }> | null;
 };
 export type TodoPageAddSelectedMutation = {
@@ -73,7 +73,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "id",
+        "name": "todoId",
         "storageKey": null
       }
     ],
@@ -98,16 +98,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "0eba8cd0a7430723b55b4566394476da",
+    "cacheID": "93e5c46b2ef12695c510223638849dfd",
     "id": null,
     "metadata": {},
     "name": "TodoPageAddSelectedMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageAddSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  checkSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    id\n  }\n}\n"
+    "text": "mutation TodoPageAddSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  checkSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    todoId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d65c4cf25a525ef9cfe868a6211cf147";
+(node as any).hash = "d6a2796352658b4beaddcf2c6676d102";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<78797ab9e8a525231c41fcba433b0d16>>
+ * @generated SignedSource<<088cc3d55f8d3c6db8881e0f3f9f0823>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,20 +9,20 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type TodoPageAddSelectedMutation$variables = {
+export type TodoPageDeleteSelectedMutation$variables = {
   todoIds: ReadonlyArray<any>;
 };
-export type TodoPageAddSelectedMutation$data = {
-  readonly checkSelectedTodos: ReadonlyArray<{
+export type TodoPageDeleteSelectedMutation$data = {
+  readonly deleteSelectedTodos: ReadonlyArray<{
     readonly description: string;
-    readonly id: string;
     readonly isDone: boolean;
     readonly name: string;
+    readonly todoId: string;
   }> | null;
 };
-export type TodoPageAddSelectedMutation = {
-  response: TodoPageAddSelectedMutation$data;
-  variables: TodoPageAddSelectedMutation$variables;
+export type TodoPageDeleteSelectedMutation = {
+  response: TodoPageDeleteSelectedMutation$data;
+  variables: TodoPageDeleteSelectedMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -45,7 +45,7 @@ v1 = [
     ],
     "concreteType": "Todo",
     "kind": "LinkedField",
-    "name": "checkSelectedTodos",
+    "name": "deleteSelectedTodos",
     "plural": true,
     "selections": [
       {
@@ -73,7 +73,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "id",
+        "name": "todoId",
         "storageKey": null
       }
     ],
@@ -85,7 +85,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoPageDeleteSelectedMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -94,20 +94,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoPageDeleteSelectedMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "0eba8cd0a7430723b55b4566394476da",
+    "cacheID": "a1ad88db9d21afd54286ef8421903b1f",
     "id": null,
     "metadata": {},
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoPageDeleteSelectedMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageAddSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  checkSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    id\n  }\n}\n"
+    "text": "mutation TodoPageDeleteSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  deleteSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    todoId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d65c4cf25a525ef9cfe868a6211cf147";
+(node as any).hash = "fa2a94cc4b92ae358e468b96851abe16";
 
 export default node;

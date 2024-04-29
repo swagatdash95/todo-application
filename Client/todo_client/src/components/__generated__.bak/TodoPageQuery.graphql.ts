@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c3cb81753331b8197ca8a6c28d8550cf>>
+ * @generated SignedSource<<486b9370f04d9697014f1997a461b38c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,51 +10,27 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type TodoPageQuery$variables = {
-  id: any;
-};
+export type TodoPageQuery$variables = {};
 export type TodoPageQuery$data = {
   readonly todos: {
-    readonly " $fragmentSpreads": FragmentRefs<"TodoList_todos">;
-  } | null;
+    readonly " $fragmentSpreads": FragmentRefs<"TodoList_items">;
+  };
 };
 export type TodoPageQuery = {
   response: TodoPageQuery$data;
   variables: TodoPageQuery$variables;
 };
 
-const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "id"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "id",
-    "variableName": "id"
-  }
-],
-v2 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-};
-return {
+const node: ConcreteRequest = {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "TodoPageQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": null,
         "concreteType": "Todos",
         "kind": "LinkedField",
         "name": "todos",
@@ -63,7 +39,7 @@ return {
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "TodoList_todos"
+            "name": "TodoList_items"
           }
         ],
         "storageKey": null
@@ -74,26 +50,18 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
     "name": "TodoPageQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": null,
         "concreteType": "Todos",
         "kind": "LinkedField",
         "name": "todos",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "count",
-            "storageKey": null
-          },
           {
             "alias": null,
             "args": null,
@@ -102,7 +70,13 @@ return {
             "name": "items",
             "plural": true,
             "selections": [
-              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "kind": "ScalarField",
+                "name": "todoId",
+                "storageKey": null
+              },
               {
                 "alias": null,
                 "args": null,
@@ -123,18 +97,6 @@ return {
                 "kind": "ScalarField",
                 "name": "description",
                 "storageKey": null
-              },
-              {
-                "kind": "ClientExtension",
-                "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "__id",
-                    "storageKey": null
-                  }
-                ]
               }
             ],
             "storageKey": null
@@ -145,16 +107,15 @@ return {
     ]
   },
   "params": {
-    "cacheID": "1a2b4898a7820be93b2d0a8fc6c553c9",
+    "cacheID": "10574d1752f24ecf194d40ae101ac374",
     "id": null,
     "metadata": {},
     "name": "TodoPageQuery",
     "operationKind": "query",
-    "text": "query TodoPageQuery(\n  $id: UUID!\n) {\n  todos(id: $id) {\n    ...TodoList_todos\n    id\n  }\n}\n\nfragment TodoItem_item on Todo {\n  id\n  name\n  isDone\n  description\n}\n\nfragment TodoList_todos on Todos {\n  id\n  count\n  items {\n    id\n    ...TodoItem_item\n  }\n}\n"
+    "text": "query TodoPageQuery {\n  todos {\n    ...TodoList_items\n  }\n}\n\nfragment TodoItem_item on Todo {\n  todoId\n  name\n  isDone\n  description\n}\n\nfragment TodoList_items on Todos {\n  items {\n    ...TodoItem_item\n  }\n}\n"
   }
 };
-})();
 
-(node as any).hash = "eaa09d3b1aea0fdf75079be9513080fd";
+(node as any).hash = "fdc4b77767c5a1660f17c55bb73c38d5";
 
 export default node;

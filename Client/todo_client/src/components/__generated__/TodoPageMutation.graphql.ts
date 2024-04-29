@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<3aa118639c10e57a64d784ec517f0ff5>>
+ * @generated SignedSource<<fc5aface018ef6d23b50ff7e7897b59b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,16 +9,24 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type TodoPageMutation$variables = {
+export type AddTodoInput = {
   description?: string | null;
+  id: string;
   name: string;
+};
+export type TodoPageMutation$variables = {
+  input: AddTodoInput;
 };
 export type TodoPageMutation$data = {
   readonly addTodo: {
-    readonly description: string;
-    readonly isDone: boolean;
-    readonly name: string;
-    readonly todoId: string;
+    readonly count: number;
+    readonly id: string;
+    readonly items: ReadonlyArray<{
+      readonly description: string;
+      readonly id: string;
+      readonly isDone: boolean;
+      readonly name: string;
+    }>;
   } | null;
 };
 export type TodoPageMutation = {
@@ -27,15 +35,19 @@ export type TodoPageMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "description"
-},
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "input"
+  }
+],
 v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "name"
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
 },
 v2 = [
   {
@@ -43,21 +55,11 @@ v2 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "description",
-        "variableName": "description"
-      },
-      {
-        "kind": "Literal",
-        "name": "isDone",
-        "value": false
-      },
-      {
-        "kind": "Variable",
-        "name": "name",
-        "variableName": "name"
+        "name": "values",
+        "variableName": "input"
       }
     ],
-    "concreteType": "Todo",
+    "concreteType": "Todos",
     "kind": "LinkedField",
     "name": "addTodo",
     "plural": false,
@@ -66,28 +68,41 @@ v2 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "description",
+        "name": "count",
         "storageKey": null
       },
+      (v1/*: any*/),
       {
         "alias": null,
         "args": null,
-        "kind": "ScalarField",
-        "name": "isDone",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "todoId",
+        "concreteType": "Todo",
+        "kind": "LinkedField",
+        "name": "items",
+        "plural": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "description",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "isDone",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "name",
+            "storageKey": null
+          },
+          (v1/*: any*/)
+        ],
         "storageKey": null
       }
     ],
@@ -96,10 +111,7 @@ v2 = [
 ];
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "TodoPageMutation",
@@ -109,25 +121,22 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v1/*: any*/),
-      (v0/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "TodoPageMutation",
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "923091b8bacd0f6fdea4d43889b6336c",
+    "cacheID": "d0cfe556d96cdd59c98d300a5d1e924c",
     "id": null,
     "metadata": {},
     "name": "TodoPageMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageMutation(\n  $name: String!\n  $description: String\n) {\n  addTodo(name: $name, isDone: false, description: $description) {\n    description\n    isDone\n    name\n    todoId\n  }\n}\n"
+    "text": "mutation TodoPageMutation(\n  $input: AddTodoInput!\n) {\n  addTodo(values: $input) {\n    count\n    id\n    items {\n      description\n      isDone\n      name\n      id\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "16ecbeca8edb7b7836a3ef7c2f52fc67";
+(node as any).hash = "0ed83b1cc49a382153da87094585d843";
 
 export default node;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<78797ab9e8a525231c41fcba433b0d16>>
+ * @generated SignedSource<<f9d5bb3eb550a17e85b2d808c9f4fbb3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,20 +9,20 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type TodoPageAddSelectedMutation$variables = {
-  todoIds: ReadonlyArray<any>;
+export type TodoItemToggleMutation$variables = {
+  todoId: any;
 };
-export type TodoPageAddSelectedMutation$data = {
-  readonly checkSelectedTodos: ReadonlyArray<{
+export type TodoItemToggleMutation$data = {
+  readonly checkTodo: {
     readonly description: string;
-    readonly id: string;
     readonly isDone: boolean;
     readonly name: string;
-  }> | null;
+    readonly todoId: string;
+  } | null;
 };
-export type TodoPageAddSelectedMutation = {
-  response: TodoPageAddSelectedMutation$data;
-  variables: TodoPageAddSelectedMutation$variables;
+export type TodoItemToggleMutation = {
+  response: TodoItemToggleMutation$data;
+  variables: TodoItemToggleMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -30,7 +30,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "todoIds"
+    "name": "todoId"
   }
 ],
 v1 = [
@@ -39,22 +39,15 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "todoIds",
-        "variableName": "todoIds"
+        "name": "todoId",
+        "variableName": "todoId"
       }
     ],
     "concreteType": "Todo",
     "kind": "LinkedField",
-    "name": "checkSelectedTodos",
-    "plural": true,
+    "name": "checkTodo",
+    "plural": false,
     "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "description",
-        "storageKey": null
-      },
       {
         "alias": null,
         "args": null,
@@ -73,7 +66,14 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "id",
+        "name": "todoId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "description",
         "storageKey": null
       }
     ],
@@ -85,7 +85,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoItemToggleMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -94,20 +94,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoItemToggleMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "0eba8cd0a7430723b55b4566394476da",
+    "cacheID": "48003bb3d9c0ccb78c2ff462131c7a20",
     "id": null,
     "metadata": {},
-    "name": "TodoPageAddSelectedMutation",
+    "name": "TodoItemToggleMutation",
     "operationKind": "mutation",
-    "text": "mutation TodoPageAddSelectedMutation(\n  $todoIds: [UUID!]!\n) {\n  checkSelectedTodos(todoIds: $todoIds) {\n    description\n    isDone\n    name\n    id\n  }\n}\n"
+    "text": "mutation TodoItemToggleMutation(\n  $todoId: UUID!\n) {\n  checkTodo(todoId: $todoId) {\n    isDone\n    name\n    todoId\n    description\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d65c4cf25a525ef9cfe868a6211cf147";
+(node as any).hash = "ff92e7cd31c3c5dc24545448e575741b";
 
 export default node;

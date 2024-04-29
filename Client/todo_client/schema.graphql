@@ -4,25 +4,41 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+input AddTodoInput {
+  id: ID!
+  name: String!
+  description: String = ""
+}
+
 type Mutation {
-  addTodo(name: String!, description: String = "", isDone: Boolean = false): Todo
-  checkTodo(todoId: UUID!): Todo
+  addTodo(values: AddTodoInput!): Todos
+  checkTodo(id: UUID!): Todo
   checkSelectedTodos(todoIds: [UUID!]!): [Todo!]
-  deleteTodo(todoId: UUID!): Todo
+  deleteTodo(id: UUID!): Todo
   deleteSelectedTodos(todoIds: [UUID!]!): [Todo!]
 }
 
-type Query {
-  version: String!
-  todo(todoId: UUID!): Todo
-  todos: [Todo!]!
+interface Node {
+  id: ID!
 }
 
-type Todo {
-  todoId: ID!
+type Query {
+  node(id: UUID!): Node
+  todo(id: UUID!): Todo
+  todos(id: UUID!): Todos
+}
+
+type Todo implements Node {
+  id: ID!
   name: String!
   description: String!
   isDone: Boolean!
+}
+
+type Todos implements Node {
+  id: ID!
+  count: Int!
+  items: [Todo!]!
 }
 
 scalar UUID

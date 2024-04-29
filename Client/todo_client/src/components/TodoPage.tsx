@@ -6,7 +6,11 @@ import {
   PreloadedQuery,
   useQueryLoader,
   useMutation,
+  usePreloadedQuery,
+  Environment as env,
+  Disposable,
 } from "react-relay";
+
 import { useState, useEffect } from "preact/hooks";
 import type { TodoPageQuery as TodoQueryType } from "./__generated__/TodoPageQuery.graphql";
 import type { TodoPageMutation } from "./__generated__/TodoPageMutation.graphql";
@@ -14,6 +18,7 @@ import type { TodoPageAddSelectedMutation } from "./__generated__/TodoPageAddSel
 import type { TodoPageDeleteSelectedMutation } from "./__generated__/TodoPageDeleteSelectedMutation.graphql";
 
 import TodoList from "./TodoList";
+import Environment from "../Environment";
 
 // const RootQuery = graphql`
 // query RootQuery {
@@ -24,26 +29,61 @@ import TodoList from "./TodoList";
 // `
 
 const queryAll = graphql`
-  query TodoPageQuery {
-    todos {
-      isDone
-      name
-      todoId
-      description
+  query TodoPageQuery($id: UUID!) {
+    todos(id: $id) {
+      ...TodoList_todos
     }
   }
 `;
 
 const addItem = graphql`
-  mutation TodoPageMutation($name: String!, $description: String) {
-    addTodo(name: $name, isDone: false, description: $description) {
-      description
-      isDone
-      name
-      todoId
+  mutation TodoPageMutation($input: AddTodoInput!) {
+    addTodo(values: $input) {
+      count
+      id
+      items {
+        description
+        isDone
+        name
+        id
+      }
     }
   }
 `;
+
+// const addItem = graphql`
+//   mutation TodoPageMutation($name: String!, $description: String) {
+//     addTodo(name: $name, isDone: false, description: $description) {
+//       items {
+//         description
+//         isDone
+//         name
+//         id
+//       }
+//     }
+//   }
+// `;
+
+// const addItem = graphql`
+//   mutation TodoPageMutation($name: String!, $description: String) {
+//     addTodo(name: $name, isDone: false, description: $description) {
+//       items {
+//         description
+//         isDone
+//         name
+//         id
+//       }
+//     }
+//   }
+// `;
+
+// const addItem = graphql`
+//   mutation TodoPageMutation($name: String!, $description: String) {
+//     addTodo(name: $name, isDone: false, description: $description) {
+//       ...TodoList_todos
+//     }
+//   }
+// `;
 
 const addSelectedItem = graphql`
   mutation TodoPageAddSelectedMutation($todoIds: [UUID!]!) {
@@ -51,6 +91,7 @@ const addSelectedItem = graphql`
       description
       isDone
       name
+      id
     }
   }
 `;
@@ -61,20 +102,31 @@ const deleteSelectedItems = graphql`
       description
       isDone
       name
-      todoId
+      id
     }
   }
 `;
-
 type Props = {
-  todoQueryRef: PreloadedQuery<TodoQueryType>;
+  initialQueryRef: PreloadedQuery<TodoQueryType>;
 };
 
-const TodoPage = () => {
-  const [todoQuery, loadTodoQuery] = useQueryLoader<TodoQueryType>(queryAll);
+const TodoPage = (props: any) => {
+  const [todoQuery, loadTodoQuery] = useQueryLoader<TodoQueryType>(
+    queryAll,
+    props.initialQueryRef
+  );
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [selectedItems, setSelectedItems] = useState([] as any);
+
+  const [refetchVal, setRefetchVal] = useState(false);
+  // function callBackMutation(
+  //   environment: env,
+  //   config: type.MutationConfig<TodoPageAddSelectedMutation>
+  // ): Disposable {
+  //   console.log("Hello!");
+  // }
+
   const [commitAddMutation, isAddMutationInFlight] =
     useMutation<TodoPageMutation>(addItem);
   const [commitSelectedAddMutation, isSelectedAddMutationInFlight] =
@@ -83,14 +135,42 @@ const TodoPage = () => {
     useMutation<TodoPageDeleteSelectedMutation>(deleteSelectedItems);
 
   useEffect(() => {
-    loadTodoQuery({});
+    loadTodoQuery(
+      { id: "cfb2eb2c-d5cd-4aba-b03f-537f6f95440c" },
+      { fetchPolicy: "store-or-network" }
+    );
+    console.log("loadQuery Executed!");
   }, []);
 
   const callAddMutation = () => {
+    console.log("Before:", Environment.getStore());
     commitAddMutation({
       variables: {
-        name: newItemName,
-        description: newItemDesc ? newItemDesc : "",
+        input: {
+          id: "cfb2eb2c-d5cd-4aba-b03f-537f6f95440c",
+          name: newItemName,
+          description: newItemDesc ? newItemDesc : "",
+        },
+      },
+      onCompleted: (response, error) => {
+        console.log("Response Caught!!");
+        if (error) {
+          console.log("Error:", error);
+        } else {
+          // console.log("Response:", response);
+          console.log("After:", Environment.getStore());
+          // refreshTodoQuery();
+          setRefetchVal(true);
+        }
+      },
+      updater: (store) => {
+        var newVal = store.getRootField("addTodo");
+        var oldVal = store.get("client:root:todos");
+        console.log(" Updated items:", newVal.getLinkedRecords("items"));
+        // console.log("Previous Items:", oldVal.getLinkedRecords("items"));
+        console.log(store.get("client:root:todos"));
+        // console.log("Updater:", store);
+        // store.invalidateStore();
       },
     });
     setNewItemDesc("");
@@ -115,7 +195,7 @@ const TodoPage = () => {
   };
 
   if (todoQuery == null) {
-    return null;
+    return <div>TodoQuery is null</div>;
   }
 
   const callDeleteSelectionMutaion = () => {
@@ -129,15 +209,45 @@ const TodoPage = () => {
       setSelectedItems([]);
     }
   };
+  // const renderComponent = ({ error, props, retry }: any) => {
+  //   if (error) {
+  //     return <div>{error.message}</div>;
+  //   } else if (props) {
+  //     return (
+  //       <div>
+  //         {
+  //           <TodoList
+  //             todos={props.todos}
+  //             updateSelectedItems={updateSelectedItems}
+  //             selectedItems={selectedItems}
+  //           />
+  //         }
+  //       </div>
+  //     );
+  //   }
+  // };
+  const data = usePreloadedQuery(queryAll, todoQuery);
+  console.log("Data here!!", data);
 
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
+    <div className="todo-page">
+      {/* <QueryRenderer
+        environment={Environment}
+        query={queryAll}
+        variables={{}}
+        // variables={{ refetch: refetchVal }}
+        render={renderComponent}
+      /> */}
+
       <TodoList
-        todoQueryRef={todoQuery}
-        todoQuery={queryAll}
+        todos={data.todos}
+        // todoQueryRef={todoQuery}
+        // todoQuery={queryAll}
         updateSelectedItems={updateSelectedItems}
         selectedItems={selectedItems}
+        // todos={props.todos}
       />
+
       <button
         onClick={callAddItemsMutation}
         style={{
@@ -191,6 +301,7 @@ const TodoPage = () => {
         />
         <button
           onClick={(event) => {
+            console.log("Inside Callback:", Environment.getStore());
             if (newItemName) {
               callAddMutation();
             }
@@ -200,7 +311,7 @@ const TodoPage = () => {
           Add Item
         </button>
       </p>
-    </Suspense>
+    </div>
   );
 };
 
